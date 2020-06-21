@@ -97,23 +97,28 @@ def get_one_user(current_user, public_id):
 @app.route('/user', methods=['POST'])
 @token_required
 def create_user(current_user):
+
     archivo = open("testing.txt", "a")
-    if not current_user.admin:
-        return jsonify({'message' : 'Cannot perform that function!'})
+
+    #if not current_user.admin:
+        #return jsonify({'message' : 'Cannot perform that function!'})
 
     data = request.get_json()
     hashed_password = generate_password_hash(data['password'], method='sha256')
     new_user = User(public_id=str(uuid.uuid4()), name=data['name'], apellido=data['apellido'], password=hashed_password, admin=False)
     db.session.add(new_user)
     db.session.commit()
+
     archivo.write("New user created! \n")
     archivo.close()
+
     return jsonify({'message' : 'New user created!'})
 
 
 @app.route('/user/<public_id>', methods=['PUT'])
 @token_required
 def promote_user(current_user, public_id):
+
     if not current_user.admin:
         return jsonify({'message' : 'Cannot perform that function!'})
 
@@ -129,7 +134,9 @@ def promote_user(current_user, public_id):
 @app.route('/user/<public_id>', methods=['DELETE'])
 @token_required
 def delete_user(current_user, public_id):
+
     archivo = open("testing.txt", "a")
+
     if not current_user.admin:
         return jsonify({'message' : 'Cannot perform that function!'})
 
