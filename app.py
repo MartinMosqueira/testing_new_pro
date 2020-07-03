@@ -200,22 +200,22 @@ def get_card(current_user):
 def get_new_venta(current_user):
     archivo = open("log.txt", "a")
     data = request.get_json()
-    new_user = User(name=data['name'])
-    new_card= CreditCard(code=data['code']) #acá deveria ir el token 
+    new_user = User(public_id=data['public_id'])
+    new_card= CreditCard(id=data['id']) #acá deveria ir el token 
     new_monto= data['maxmonto']
-    user = User.query.filter_by(name = new_user.name).first()
-    venta = CreditCard.query.filter_by(code = new_card.code).first()
+    user = User.query.filter_by(public_id = new_user.public_id).first()
+    venta = CreditCard.query.filter_by(id = new_card.id).first()
 
     if not user:
         archivo.write("usuario no encontrado \n")
-        return jsonify({'userError' : new_user.name, 'error' : 'usuario no encontrado'})
+        return jsonify({'userError' : new_user.public_id, 'error' : 'usuario no encontrado'}),403
     if not venta: 
         archivo.write("codigo de la tarjeta no encontrado \n")
-        return jsonify({'codeError' : new_card.code, 'error' : 'codigo de la tarjeta no encontrado'})
+        return jsonify({'codeError' : new_card.id, 'error' : 'codigo de la tarjeta no encontrado'}),403
     
     if int(venta.maxmonto) < int(new_monto):
         archivo.write("monto maximo superado \n")
-        return jsonify({'montoError' : venta.maxmonto, 'error' : 'monto maximo superado'})
+        return jsonify({'montoError' : venta.maxmonto, 'error' : 'monto maximo superado'}),403
 
     archivo.write("venta exitosa \n")
     return 'venta exitosa'

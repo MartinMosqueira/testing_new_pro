@@ -1,0 +1,11 @@
+No credit card found 
+Token is missing! 
+codigo de la tarjeta no encontrado 
+venta exitosa 
+monto maximo superado 
+usuario no encontrado 
+venta exitosa 
+usuario no encontrado 
+usuario no encontrado 
+venta exitosa 
+CreditCard created! 
